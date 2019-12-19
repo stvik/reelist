@@ -15,6 +15,7 @@ class ListsController < ApplicationController
 	end
 
 	def create
+
 		list = List.create(list_params)
 
 
@@ -25,7 +26,7 @@ class ListsController < ApplicationController
 
 	def list_params
 
-		params.require(:list).(:name, :creator)
+		params.require(:list).permit(:name, :creator)
 
 	end
 
