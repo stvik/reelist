@@ -58,7 +58,6 @@ function createAddForm() {
 }
 
 function createNewList (event) {
-	debugger
 	event.preventDefault()
 	console.log(event)
 
@@ -88,18 +87,62 @@ function createNewList (event) {
 }
 
 function renderList(list) {
+	const imageSrc = 'https://www.pngkey.com/png/detail/226-2264513_open-house-film-production-icon-png.png'
 
 	const container = document.getElementById('list-container')
 
-	const imageSrc = 'https://www.pngkey.com/png/detail/226-2264513_open-house-film-production-icon-png.png'
+	const card = document.createElement('div')
+	card.classList.add('ui', 'card')
+	container.prepend(card)
+
+	const imgDiv = document.createElement('div')
+	imgDiv.classList.add('image')
+	card.append(imgDiv)
 
 	const img = document.createElement('img')
+	img.classList.add('ui','medium','circular','image')
 	img.src = imageSrc
-	img.classList.add("ui", "medium", "circular",'image')
-	container.append(img)
+	card.append(img)
+
+	const contentDiv = document.createElement('div')
+	contentDiv.classList.add('content')
+	contentDiv.innerHTML = ` <a class="header">${list.name}</a>
+    <div class="meta">
+      <span class="date">Created on ${list.created_on}</span>
+    </div>`
+ 
+	card.append(contentDiv)
+
+
+
+	// const header = document.createElement('a')
+	// header.classList.add('header')
+	// header.innerHTML = 
+
 
 
 }
+
+// <div class="ui card">
+//   <div class="image">
+//     <img src="/images/avatar2/large/kristy.png">
+//   </div>
+//   <div class="content">
+    // <a class="header">Kristy</a>
+    // <div class="meta">
+    //   <span class="date">Joined in 2013</span>
+    // </div>
+    // <div class="description">
+    //   Kristy is an art director living in New York.
+    // </div>
+//   </div>
+//   <div class="extra content">
+//     <a>
+//       <i class="user icon"></i>
+//       22 Friends
+//     </a>
+//   </div>
+// </div>
 
 
 
