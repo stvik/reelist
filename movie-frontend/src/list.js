@@ -1,3 +1,12 @@
+function getLists() {
+	fetch('http://localhost:3000/lists')
+	.then(resp => resp.json())
+	.then(lists => lists.forEach(renderList))
+
+}
+
+
+
 
 function createAddForm() {
 
@@ -106,9 +115,9 @@ function renderList(list) {
 
 	const contentDiv = document.createElement('div')
 	contentDiv.classList.add('content')
-	contentDiv.innerHTML = ` <a class="header">${list.name}</a>
+	contentDiv.innerHTML = `<a class="header">${list.name}</a>
     <div class="meta">
-      <span class="date">Created on ${list.created_on}</span>
+      <span class="date">Movies added: ${list.movies.length}</span>
     </div>`
  
 	card.append(contentDiv)

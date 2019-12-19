@@ -1,6 +1,7 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
+	getLists()
 	document.getElementById('form-container').style.display = 'none'
 	createAddForm()
 	const createButton = document.getElementById("create-new-list")
