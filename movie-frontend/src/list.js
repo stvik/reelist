@@ -45,12 +45,20 @@ function createAddForm() {
 	submitButton.innerText = "Create List"
 	form.append(submitButton)
 
+	const cancelButton = document.createElement('button')
+	cancelButton.classList.add('ui', 'button')
+	cancelButton.type = 'reset'
+	cancelButton.innerText = "Cancel"
+	form.append(cancelButton)
+
 	form.addEventListener('submit', createNewList)
+	cancelButton.addEventListener('click', toggleAddForm)
 
 
 }
 
 function createNewList (event) {
+	debugger
 	event.preventDefault()
 	console.log(event)
 
