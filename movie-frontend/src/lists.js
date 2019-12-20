@@ -7,7 +7,6 @@ function getLists() {
 
 
 
-
 function createAddForm() {
 
 	const container = document.getElementById('form-container')
@@ -102,7 +101,7 @@ function renderList(list) {
 
 	const card = document.createElement('div')
 	card.classList.add('ui', 'card')
-	container.prepend(card)
+	
 
 	const imgDiv = document.createElement('div')
 	imgDiv.classList.add('image')
@@ -117,41 +116,42 @@ function renderList(list) {
 	contentDiv.classList.add('content')
 	contentDiv.innerHTML = `<a class="header">${list.name}</a>
     <div class="meta">
-      <span class="date">Movies added: ${list.movies.length}</span>
+      <span class="date">Movies added: ${list.movies ? list.movies.length : 0}</span>
     </div>`
+    card.append(contentDiv)
  
-	card.append(contentDiv)
+
+ 	const extraDiv = document.createElement('div')
+ 	extraDiv.classList.add('extra', 'content')
+ 	card.append(extraDiv)
+
+	const trash = document.createElement('span')
+	trash.classList.add('right', 'floated')
+	trash.innerHTML = `<span class="right floated trash">
+      <i class="trash alternate outline icon"></i>
+      Delete
+    </span>`
+
+    extraDiv.append(trash)
+
+	container.prepend(card)
 
 
-
-	// const header = document.createElement('a')
-	// header.classList.add('header')
-	// header.innerHTML = 
-
-
+	trash.addEventListener('click', (e) => deleteList(e, list.id))
 
 }
 
-// <div class="ui card">
-//   <div class="image">
-//     <img src="/images/avatar2/large/kristy.png">
-//   </div>
-//   <div class="content">
-    // <a class="header">Kristy</a>
-    // <div class="meta">
-    //   <span class="date">Joined in 2013</span>
-    // </div>
-    // <div class="description">
-    //   Kristy is an art director living in New York.
-    // </div>
-//   </div>
-//   <div class="extra content">
-//     <a>
-//       <i class="user icon"></i>
-//       22 Friends
-//     </a>
-//   </div>
-// </div>
+function deleteList(event, listId) {
+	fetch(`http://localhost:3000/lists/${listId}`, {method: "DELETE"})
+	.then(resp => {
+		if (resp.ok){
+			event.target.parentNode.parentNode.parentNode.remove()
+		} else {
+			alert('Oops.. Something went wrong!')
+		}
+	})
+	.catch(() => alert('Oops.. Something went wrong!'))
+}
 
 
 
