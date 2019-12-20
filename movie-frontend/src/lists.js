@@ -145,10 +145,16 @@ function renderList(list) {
 }
 
 function deleteList(event, listId) {
+	const showContainer = document.getElementById('list-show')
+	showContainer.style.display = 'none'
+	const movieSearch = document.getElementById('find-movie')
+	movieSearch.style.display = 'none'
+
 	fetch(`http://localhost:3000/lists/${listId}`, {method: "DELETE"})
 	.then(resp => {
 		if (resp.ok){
 			event.target.parentNode.parentNode.parentNode.remove()
+
 		} else {
 			alert('Oops.. Something went wrong!')
 		}
