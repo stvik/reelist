@@ -9,7 +9,7 @@ function searchMovieForm() {
 	if (!document.getElementById('title-search-div')) {
 	const searchDiv = createWithClasses('div', 'ui', 'left', 'icon', 'action', 'input')
 	searchDiv.innerHTML = `    <i class="search icon"></i>
-    <input type="text" placeholder="Search by movie title...">
+    <input type="text" id="title-search-input" placeholder="Search by movie title...">
     <div class="ui violet submit button" id='title-search-button'>Search</div>`
     searchDiv.id = 'title-search-div'
     container.append(searchDiv)
@@ -22,8 +22,39 @@ function searchMovieForm() {
     randomButton.innerText ='Find a Random Movie'
     container.append(randomButton)
 
-    const searchButton = document.getElementById('title-search-button')
+
 	}
+	const searchButton = document.getElementById('title-search-button')
+	searchButton.addEventListener('click', searchMovie)
+
+}
+
+function searchMovie(event) {
+	const search = document.getElementById('title-search-input').value
+
+	console.log(search)
+
+	let i = 0
+
+
+		const data = {
+			'search': search,
+			'number': i
+		}	
+
+		const configOp = {
+			method: "POST",
+			headers: {
+				"content-type": 'application/json',
+				"Accept": "application/json"
+			},
+			body: JSON.stringify(data)
+		}
+
+		fetch('http://localhost:3000/movies', configOp)
+		.then(resp => resp.json())
+		.then(movie => console.log(movie))
+	
 }
 
 

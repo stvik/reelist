@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_152531) do
     t.float "rating"
     t.text "description"
     t.string "picture"
-    t.integer "year"
+    t.string "release_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

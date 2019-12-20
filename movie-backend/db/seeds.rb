@@ -6,12 +6,16 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
+Tmdb::Api.key("448aada9893a31e347236034886c1ced")
 
 Movie.destroy_all
 
-10.times do
+movie_title = Tmdb::Movie.find('lord of the rings').first.title
 
-	Movie.create(title: Faker::Book.title, rating: rand(1..10), year: rand(1950..2019), description: Faker::Lorem.paragraph_by_chars(number: 600, supplemental: false), picture: Faker::LoremFlickr.image)
+Movie.create(title: movie_title )
 
+50.times do
+	movie = Tmdb::Find(rand(1000))
+	Movie.create()
+	
 end
