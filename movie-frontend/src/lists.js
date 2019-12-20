@@ -89,6 +89,7 @@ function createNewList (event) {
 	fetch('http://localhost:3000/lists', configOp)
 	.then(resp => resp.json())
 	.then(renderList)
+	.catch(error => alert(error.message))
 
 
 	event.currentTarget.reset()
@@ -138,6 +139,8 @@ function renderList(list) {
 
 
 	trash.addEventListener('click', (e) => deleteList(e, list.id))
+	img.addEventListener('click', (e) => fetchList(e, list.id))
+	contentDiv.addEventListener('click', (e) => fetchList(e, list.id))
 
 }
 
@@ -150,7 +153,7 @@ function deleteList(event, listId) {
 			alert('Oops.. Something went wrong!')
 		}
 	})
-	.catch(() => alert('Oops.. Something went wrong!'))
+	.catch(error => alert('Oops.. Something went wrong!'))
 }
 
 

@@ -12,10 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
 function toggleAddForm() {
 
 	const createForm = document.getElementById('form-container')
+	const displayList = document.getElementById('list-show')
+	const searchForm = document.getElementById('find-movie')
 	if (createForm.style.display === 'none'){
 		createForm.style.display = 'block'
+		displayList.style.display = 'none'
+		searchForm.style.display = 'none'
 	}
 	else {
 		createForm.style.display = 'none'
+		displayList.style.display = 'block'
 	}
+}
+
+
+function createWithClasses(element, ...classListValues) {
+	const newElement = document.createElement(element)
+	classListValues.forEach(name => {
+		newElement.classList.add(`${name}`)
+	})
+	return newElement
 }
