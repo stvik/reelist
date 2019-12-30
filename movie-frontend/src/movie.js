@@ -32,14 +32,10 @@ function searchMovieForm() {
 function searchMovie(event) {
 	const search = document.getElementById('title-search-input').value
 
-	console.log(search)
-
-	let i = 0
 
 
 		const data = {
 			'search': search,
-			'number': i
 		}	
 
 		const configOp = {
@@ -51,10 +47,63 @@ function searchMovie(event) {
 			body: JSON.stringify(data)
 		}
 
-		fetch('http://localhost:3000/movies', configOp)
+		fetch('http://localhost:3000/movies/search', configOp)
 		.then(resp => resp.json())
-		.then(movie => console.log(movie))
+		 .then(movies =>  {
+		 	removeChildElements(getSearchList())
+		 	movies.forEach(movie => renderSearches(movie))
+		})
 	
+}
+
+function renderSearches(movie) {
+	console.log(movie)
+
+	const searchResultsList = getSearchList()
+
+	const searchResult = createWithClasses('a', 'item')
+	searchResult.innerText = movie.title
+
+
+	searchResultsList.append(searchResult)
+
+	searchResult.addEventListener('click',() => {renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date)})
+}
+
+function removeChildElements(element) {
+	let first = element.firstElementChild
+	while (first) {
+		first.remove()
+		first = element.firstElementChild
+	}
+}
+
+function getSearchList() {
+	return document.getElementById('movie-search-list')
+}
+
+function renderMovie(title, rating, description, picture, date) {
+	const movieDisplay = document.getElementById('movie-search-display')
+	removeChildElements(movieDisplay)
+
+	const header = createWithClasses('h2', 'ui', 'header', 'centered')
+	header.innerText = title
+
+	const poster = createWithClasses('img', 'ui', 'medium', 'image', 'centered')
+	poster.src = picture
+
+	const movieRating = createWithClasses('h4', 'ui', 'header', "left", "aligned")
+	movieRating.innerText = `Rating: ${rating} stars`
+
+	const movieDescription = document.createElement('p')
+	movieDescription.innerText = description
+
+	const releaseDate = createWithClasses('h4', 'ui', 'header', "left", "aligned")
+	releaseDate.innerText = `Released: ${date}`
+
+
+	movieDisplay.append(header, poster, movieRating, releaseDate, movieDescription)
+
 }
 
 
