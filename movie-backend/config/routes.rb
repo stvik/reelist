@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :adds
   resources :lists
   post '/movies/search', to: "movies#search"
+  get '/movies/random', to: "movies#random"
   resources :movies
 
 

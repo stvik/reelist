@@ -101,8 +101,8 @@ function renderList(list) {
 	const container = document.getElementById('list-container')
 
 	const card = document.createElement('div')
-	card.dataset.id = `${list.id}`
 	card.classList.add('ui', 'card')
+	card.id = `list-card-${list.id}`
 	
 
 	// const imgDiv = document.createElement('div')
@@ -116,7 +116,7 @@ function renderList(list) {
 
 	const contentDiv = document.createElement('div')
 	contentDiv.classList.add('content')
-	contentDiv.innerHTML = `<a class="header list-names">${list.name}</a>
+	contentDiv.innerHTML = `<a class="header list-names" data-id="${list.id}">${list.name}</a>
     <div class="meta">
       <span class="date">Movies added: ${list.movies ? list.movies.length : 0}</span>
     </div>`

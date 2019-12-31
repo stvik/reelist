@@ -31,6 +31,7 @@ function renderShowList(list) {
 }
 
 function updateList(list, container){
+
 	const foundHeader = document.getElementById('list-header')
 	foundHeader.innerText = list.name
 
@@ -38,8 +39,85 @@ function updateList(list, container){
 	subH.innerText = `Created By ${list.creator} @ ${list.created_at.split('T')[0]}`
 
 
-	// const creatorSubH = document.getElementById('creator-sub-header')
-	// creatorSubH.innerText = `Created By ${list.creator}`
+	const movies = list.movies
+
+	const adds = list.adds
+
+	const movieItems = document.getElementById('movie-items-container')
+	removeChildElements(movieItems)
+
+
+	movies.forEach(movie => {
+		renderMovieItem(movie, movieItems, list.id, adds)
+	})
+
+}
+
+function renderMovieItem(movie, container, listId, adds) {
+
+	const movieItem = createWithClasses('div', 'item')
+
+
+	adds.forEach(add => {
+		if (add.movie_id === movie.id) {
+			movieItem.dataset.id = `${add.id}`
+		}
+	})
+
+
+	movieItem.innerHTML = `
+     <div class="ui small image">
+      <img src="${movie.picture}">
+    </div>
+    <div class="content">
+      <div class="header">${movie.title}</div>
+      <div class="meta">
+        <span class="price">${movie.rating} Stars  | </span>
+        <span class="stay">Released: ${movie.release_date}</span>
+      </div>
+       <div class="description">
+        <p>${movie.description}</p>
+      </div>
+      <div class="extra">
+	     <span class="right floated trash ui button">
+	      <i class="trash alternate outline icon"></i>
+	      Remove
+	    </span>
+    </div>
+ `
+ const deleteButton = movieItem.querySelector('span.trash')
+
+ deleteButton.addEventListener('click', () => {deleteAdd(event, movie.id, listId)})
+
+  container.append(movieItem)
+
+
+}
+
+function deleteAdd(e, movieId, listId) {
+
+	const movieItem = e.target.parentNode.parentElement.parentElement
+	const addId = movieItem.dataset.id
+
+	movieItem.remove()
+	decreaseMovieCount(listId)
+
+	fetch(`http://localhost:3000/adds/${addId}`, {'method': 'DELETE'})
+	.catch(error => alert(error))
+
+
+
+	}
+
+	function decreaseMovieCount(listId) {
+
+	const card = document.getElementById(`list-card-${listId}`)
+
+	const movieAdded = card.firstChild.lastChild.firstElementChild
+
+	let numberAdded = parseInt(movieAdded.innerText.slice(13,20))
+
+	movieAdded.innerText = `Movies added: ${numberAdded - 1}`
 
 }
 
@@ -59,6 +137,18 @@ function createListDisplay(list, container) {
 		container.append(movieButton)
 
 		movieButton.addEventListener('click', searchMovieForm)
+
+		const movieItems = createWithClasses('div', 'ui', 'items')
+		movieItems.id = 'movie-items-container'
+		container.append(movieItems)
+
+		const movies = list.movies
+		const adds = list.adds
+
+		movies.forEach(movie => {
+			renderMovieItem(movie, movieItems, list.id, adds)
+		})
+
 
 // ****************** FIX THIS LATER *******************
 		// const deleteButton = createWithClasses('button', 'massive', 'ui', 'button', 'fluid', 'circular', 'red')

@@ -22,11 +22,22 @@ function searchMovieForm() {
     randomButton.innerText ='Find a Random Movie'
     container.append(randomButton)
 
+    randomButton.addEventListener('click', getRandomMovie)
 
 	}
 	const searchButton = document.getElementById('title-search-button')
 	searchButton.addEventListener('click', searchMovie)
 
+}
+
+function getRandomMovie() {
+	fetch('http://localhost:3000/movies/random')
+	.then(resp => resp.json())
+	.then(movie => {
+		const movieDisplay = document.getElementById('movie-search-show')
+		movieDisplay.style.display = 'block'
+		renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date)
+	})
 }
 
 function searchMovie(event) {
@@ -80,19 +91,14 @@ function renderSearches(movie) {
 	searchResult.addEventListener('click',() => {renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date)})
 }
 
-function removeChildElements(element) {
-	let first = element.firstElementChild
-	while (first) {
-		first.remove()
-		first = element.firstElementChild
-	}
-}
+
 
 function getSearchList() {
 	return document.getElementById('movie-search-list')
 }
 
 function renderMovie(title, rating, description, picture, date) {
+
 	const movieDisplay = document.getElementById('movie-search-display')
 	movieDisplay.style.display = 'inline-grid'
 	removeChildElements(movieDisplay)
@@ -126,7 +132,7 @@ function renderMovie(title, rating, description, picture, date) {
 
 	listCards.forEach(list => {
 		let listOption = createWithClasses('option')
-		listOption.value = list.innerText
+		listOption.value = list.dataset.id
 		listOption.innerText = list.innerText
 		// listOption.dataset.id = list.dataset.id
 		dropdown.append(listOption)
@@ -143,12 +149,41 @@ function renderMovie(title, rating, description, picture, date) {
 }
 
 function addToList(e, movieId) {
-	debugger
-	const list = e.target.previousSibling.dataset.id
-	console.log(list)
 
-	console.log(movieId)
+	const listId = e.target.previousSibling.value
+
+	const data = {
+		'movie_id': movieId,
+		'list_id': listId
+	}
+
+	const configOp = {
+		method: "POST",
+		headers: {
+			"content-type": 'application/json',
+			"Accept": "application/json"
+		},
+		body: JSON.stringify(data)
+	}
+
+	fetch('http://localhost:3000/adds', configOp)
+	.then(resp => resp.json())
+	.then(add => increaseMovieCount(add))
+
 	
+}
+
+function increaseMovieCount(add) {
+	const listId = add.list_id
+
+	const card = document.getElementById(`list-card-${listId}`)
+
+	const movieAdded = card.firstChild.lastChild.firstElementChild
+
+	let numberAdded = parseInt(movieAdded.innerText.slice(13,20))
+
+	movieAdded.innerText = `Movies added: ${numberAdded + 1}`
+
 }
 
 function createMovie(e, title, rating, description, picture, date) {

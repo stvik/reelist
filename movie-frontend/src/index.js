@@ -43,3 +43,11 @@ function hideSearchedMovies() {
 	document.getElementById('movie-search-show').style.display ='none'
 }
 
+function removeChildElements(element) {
+	let first = element.firstElementChild
+	while (first) {
+		first.remove()
+		first = element.firstElementChild
+	}
+}
+

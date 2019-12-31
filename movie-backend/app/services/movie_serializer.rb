@@ -5,7 +5,10 @@ class MovieSerializer
 	end
 
 	def to_serialized_json
-		@movie.to_json(:except => [:updated_at, :created_at])
+		@movie.to_json(:include => {
+		:adds => {except: [:created_at, :updated_at]}
+		},
+		:except => [:updated_at, :created_at])
 	end
 
 end

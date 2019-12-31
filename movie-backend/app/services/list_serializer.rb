@@ -7,7 +7,8 @@ class ListSerializer
 
 	def to_serialized_json
 		@list.to_json(:include => {
-		:movies => {except: [:created_at, :updated_at]}
+		:movies => {except: [:created_at, :updated_at]},
+		:adds => {except: [:created_at, :updated_at]}
 		},
 		:except => [:updated_at])
 	end
