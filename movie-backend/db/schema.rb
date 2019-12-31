@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_152531) do
     t.text "description"
     t.string "picture"
     t.string "release_date"
+    t.string "trailer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

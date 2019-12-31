@@ -55,6 +55,22 @@ class MoviesController < ApplicationController
 		#empty array for the movies saved to database
 		created_movies = []
 
+		movie_trailers = []
+
+		movies_array.each do |movie|
+
+			movie_id = movie['id']
+
+			movie_trailer = Tmdb::Movie.trailers(movie_id)
+
+			youtube = movie_trailer['youtube']
+
+	
+			byebug
+		end
+
+
+
 		#saves each movie to database
 		movies_array.each do |movie|
 			if movie["poster_path"]
@@ -63,19 +79,22 @@ class MoviesController < ApplicationController
 
 			movie_id = movie['id']
 			
-			trailer = Tmdb::Movie.trailers(movie_id)
+			movie_trailer = Tmdb::Movie.trailers(movie_id)
 
-			byebug
+			trailer_source = nil
 
-			trailer_source = trailer['youtube'][0]['source']
+			if movie_trailer['youtube']
+				trailer_source = movie_trailer['youtube'][0]['source']
+			end
 
 			new_movie = Movie.new(title: movie['title'], rating: movie['vote_average'], description: movie['overview'], 
-				picture: poster_path, release_date: movie["release_date"] )
+				picture: poster_path, release_date: movie["release_date"], trailer: trailer_source)
 
 			created_movies << new_movie	
+
 		end
 
-
+		
 
 		# renders movies
 		render json: MovieSerializer.new(created_movies).to_serialized_json

@@ -60,13 +60,16 @@ function searchMovie(event) {
 
 		fetch('http://localhost:3000/movies/search', configOp)
 		.then(resp => resp.json())
-		 .then(movies =>  {
+		.then(movies =>  {
+
 		 	const searchList = getSearchList()
 		 	removeChildElements(searchList)
 			document.getElementById('movie-search-show').style.display = 'block'
 		 	const header = createWithClasses('h2', 'ui', 'header')
  			header.innerText = 'Search Results'
  			searchList.append(header)
+ 		
+
 
 		 	movies.forEach(movie => {
 		 		renderSearches(movie)
