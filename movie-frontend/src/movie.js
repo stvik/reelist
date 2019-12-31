@@ -50,16 +50,26 @@ function searchMovie(event) {
 		fetch('http://localhost:3000/movies/search', configOp)
 		.then(resp => resp.json())
 		 .then(movies =>  {
-		 	removeChildElements(getSearchList())
-		 	movies.forEach(movie => renderSearches(movie))
+		 	const searchList = getSearchList()
+		 	removeChildElements(searchList)
+			document.getElementById('movie-search-show').style.display = 'block'
+		 	const header = createWithClasses('h2', 'ui', 'header')
+ 			header.innerText = 'Search Results'
+ 			searchList.append(header)
+
+		 	movies.forEach(movie => {
+		 		renderSearches(movie)
+		 	})
 		})
 	
 }
 
 function renderSearches(movie) {
-	console.log(movie)
+
 
 	const searchResultsList = getSearchList()
+
+
 
 	const searchResult = createWithClasses('a', 'item')
 	searchResult.innerText = movie.title
@@ -84,6 +94,7 @@ function getSearchList() {
 
 function renderMovie(title, rating, description, picture, date) {
 	const movieDisplay = document.getElementById('movie-search-display')
+	movieDisplay.style.display = 'inline-grid'
 	removeChildElements(movieDisplay)
 
 	const header = createWithClasses('h2', 'ui', 'header', 'centered')
@@ -95,16 +106,90 @@ function renderMovie(title, rating, description, picture, date) {
 	const movieRating = createWithClasses('h4', 'ui', 'header', "left", "aligned")
 	movieRating.innerText = `Rating: ${rating} stars`
 
+	const descriptionTitle = createWithClasses('h4', 'ui', 'header', "left", "aligned")
+	descriptionTitle.innerText = `Description:`
+
 	const movieDescription = document.createElement('p')
 	movieDescription.innerText = description
 
 	const releaseDate = createWithClasses('h4', 'ui', 'header', "left", "aligned")
 	releaseDate.innerText = `Released: ${date}`
 
+	const dropdown = createWithClasses('select', 'ui', 'form', 'selection', 'dropdown')
+  
 
-	movieDisplay.append(header, poster, movieRating, releaseDate, movieDescription)
+	const listCards = Array.from(document.getElementsByClassName('list-names'))
+
+	
+
+	// const menu = document.getElementById('dropdown-choose-list')
+
+	listCards.forEach(list => {
+		let listOption = createWithClasses('option')
+		listOption.value = list.innerText
+		listOption.innerText = list.innerText
+		// listOption.dataset.id = list.dataset.id
+		dropdown.append(listOption)
+	})
+
+	const addButton = createWithClasses('button', 'ui', 'primary', 'button')
+	addButton.id = 'add-button'
+	addButton.innerText = 'Add to List'
+
+	movieDisplay.append(header, poster, movieRating, releaseDate, descriptionTitle, movieDescription, dropdown, addButton)
+	
+	addButton.addEventListener('click', () => createMovie(event, title, rating, description, picture, date))
 
 }
+
+function addToList(e, movieId) {
+	debugger
+	const list = e.target.previousSibling.dataset.id
+	console.log(list)
+
+	console.log(movieId)
+	
+}
+
+function createMovie(e, title, rating, description, picture, date) {
+	const movieData = {
+		'title': title,
+		'rating': rating,
+		'description': description,
+		'picture': picture,
+		'release_date': date
+	}	
+
+	const configOp = {
+		method: "POST",
+		headers: {
+			"content-type": 'application/json',
+			"Accept": "application/json"
+		},
+		body: JSON.stringify(movieData)
+	}
+
+ 	 fetch('http://localhost:3000/movies', configOp)
+	.then(resp => resp.json())
+	.then(movie => {
+		changeAddButton()
+		addToList(e, movie.id)
+	})
+	
+}
+
+function changeAddButton() {
+
+	document.getElementById('add-button').innerText = 'Added!'
+
+}
+
+
+
+
+
+
+
 
 
 

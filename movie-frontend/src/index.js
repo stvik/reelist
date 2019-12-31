@@ -1,6 +1,7 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
+	hideSearchedMovies()
 	getLists()
 	document.getElementById('form-container').style.display = 'none'
 	createAddForm()
@@ -33,3 +34,12 @@ function createWithClasses(element, ...classListValues) {
 	})
 	return newElement
 }
+
+function hideLists() {
+	document.getElementById('list-container').style.display ='none'
+}
+
+function hideSearchedMovies() {
+	document.getElementById('movie-search-show').style.display ='none'
+}
+

@@ -101,21 +101,22 @@ function renderList(list) {
 	const container = document.getElementById('list-container')
 
 	const card = document.createElement('div')
+	card.dataset.id = `${list.id}`
 	card.classList.add('ui', 'card')
 	
 
-	const imgDiv = document.createElement('div')
-	imgDiv.classList.add('image')
-	card.append(imgDiv)
+	// const imgDiv = document.createElement('div')
+	// imgDiv.classList.add('image')
+	// card.append(imgDiv)
 
-	const img = document.createElement('img')
-	img.classList.add('ui','medium','circular','image')
-	img.src = imageSrc
-	card.append(img)
+	// const img = document.createElement('img')
+	// img.classList.add('ui','small','circular','image')
+	// img.src = imageSrc
+	// card.append(img)
 
 	const contentDiv = document.createElement('div')
 	contentDiv.classList.add('content')
-	contentDiv.innerHTML = `<a class="header">${list.name}</a>
+	contentDiv.innerHTML = `<a class="header list-names">${list.name}</a>
     <div class="meta">
       <span class="date">Movies added: ${list.movies ? list.movies.length : 0}</span>
     </div>`
@@ -139,7 +140,7 @@ function renderList(list) {
 
 
 	trash.addEventListener('click', (e) => deleteList(e, list.id))
-	img.addEventListener('click', (e) => fetchList(e, list.id))
+	// img.addEventListener('click', (e) => fetchList(e, list.id))
 	contentDiv.addEventListener('click', (e) => fetchList(e, list.id))
 
 }
