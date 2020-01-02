@@ -22,6 +22,7 @@ function fetchList(event, listId) {
 function renderShowList(list) {
 
 	const listsContainer = document.getElementById('list-container')
+
 	// listsContainer.style.display = 'none'
 	const container = document.getElementById('list-show')
 
@@ -61,6 +62,9 @@ function updateList(list, container){
 function renderMovieItem(movie, container, listId, adds) {
 
 	const movieItem = createWithClasses('div', 'item')
+
+	container.style.backgroundColor = 'white'
+	container.style.padding = '10%'
 
 
 	adds.forEach(add => {
@@ -129,22 +133,26 @@ function deleteAdd(e, movieId, listId) {
 }
 
 function createListDisplay(list, container) {
-
+		hideLists()
 		console.log(list)
-		const header = createWithClasses('div', 'ui', 'huge', 'header', 'centered')
+		const header = createWithClasses('div', 'ui', 'huge', 'header', 'centered', 'inverted', 'grey')
 		header.id = 'list-header'
 		header.innerText = list.name
 		container.append(header)
 
-		const subH = createWithClasses('div', 'ui', 'small', 'header', 'centered', 'grey')
+		const subH = createWithClasses('div', 'ui', 'small', 'header', 'centered', 'inverted', 'olive')
 		subH.id = 'list-sub-header'
 		subH.innerText = `Created By ${list.creator} @ ${list.created_at.split('T')[0]}`
 		container.append(subH)
 
-		const movieButton = createWithClasses('button', 'massive', 'ui', 'button', 'fluid', 'circular', 'violet')
+		const movieButton = createWithClasses('button', 'massive', 'ui', 'button', 'circular', 'violet', 'fluid')
+		const buttonDiv = document.createElement('div')
+		buttonDiv.style.display = 'flex'
+		buttonDiv.align = 'middle'
+		container.append(buttonDiv)
 		movieButton.innerText = "Find a New Movie"
-		container.append(movieButton)
-
+	
+		buttonDiv.append(movieButton)
 		movieButton.addEventListener('click', searchMovieForm)
 
 		const movieItems = createWithClasses('div', 'ui', 'items')

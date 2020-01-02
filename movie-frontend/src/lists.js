@@ -113,14 +113,14 @@ function renderList(list) {
 	card.id = `list-card-${list.id}`
 	
 
-	// const imgDiv = document.createElement('div')
-	// imgDiv.classList.add('image')
-	// card.append(imgDiv)
+	const imgDiv = document.createElement('div')
+	imgDiv.classList.add('image')
+	card.append(imgDiv)
 
-	// const img = document.createElement('img')
-	// img.classList.add('ui','small','circular','image')
-	// img.src = imageSrc
-	// card.append(img)
+	const img = document.createElement('img')
+	img.classList.add('ui','medium','circular','image')
+	img.src = imageSrc
+	card.append(img)
 
 	const contentDiv = document.createElement('div')
 	contentDiv.classList.add('content')
@@ -148,7 +148,7 @@ function renderList(list) {
 
 
 	trash.addEventListener('click', (e) => deleteList(e, list.id))
-	// img.addEventListener('click', (e) => fetchList(e, list.id))
+	img.addEventListener('click', (e) => fetchList(e, list.id))
 	contentDiv.addEventListener('click', (e) => {
 		container.style.display ='none'
 		fetchList(e, list.id)
@@ -170,10 +170,10 @@ function deleteList(event, listId) {
 			event.target.parentNode.parentNode.parentNode.remove()
 
 		} else {
-			alert('Oops.. Something went wrong!')
+			alert('This list still has movies in it! Cannot delete list.')
 		}
 	})
-	.catch(error => alert('Oops.. Something went wrong!'))
+	.catch(error => alert('Oops.. Something went wrong'))
 }
 
 

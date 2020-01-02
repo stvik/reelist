@@ -1,6 +1,7 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
+
 	hideSearchedMovies()
 	hideLists()
 	homePage()
@@ -59,22 +60,33 @@ function homePage() {
 		removeChildElements(container)
 		container.style.display = 'inline'
 
-		const header = createWithClasses('h1', "ui",  'center', 'aligned', 'icon', "header")
+		const header = createWithClasses('h1', "ui",  'center', 'aligned', 'icon', "header", 'inverted', 'grey')
 		header.innerHTML = `<i class="circular film icon"></i>
   ReelList`
   		container.append(header)
 
-  		const buttonDiv = createWithClasses('div', 'ui', 'container', 'text', 'align','center')
-  		container.append(buttonDiv)
+  		const firstButtonDiv = createWithClasses('div')
+  		firstButtonDiv.display ='flex'
+  		firstButtonDiv.align = 'middle'
+  		container.append(firstButtonDiv)
+
+  		container.append(document.createElement('br'))
+
+  		const secondButtonDiv = createWithClasses('div')
+  		secondButtonDiv.display ='flex'
+  		secondButtonDiv.align = 'middle'
+  		container.append(secondButtonDiv)
 
 
-		const searchButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'violet','fluid')
+		const searchButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'violet')
 		searchButton.innerText = "Find a New Movie"
-		buttonDiv.append(searchButton)
+		firstButtonDiv.append(searchButton)
 
-		const listsButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'black', 'fluid')
+
+
+		const listsButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'black')
 		listsButton.innerText = "View lists"
-		buttonDiv.append(listsButton)
+		secondButtonDiv.append(listsButton)
 
 		searchButton.addEventListener('click', () => {
 			removeChildElements(container)

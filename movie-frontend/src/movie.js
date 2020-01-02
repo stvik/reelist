@@ -14,7 +14,7 @@ function searchMovieForm() {
     searchDiv.id = 'title-search-div'
     container.append(searchDiv)
 
-    const divider = createWithClasses('div', 'ui', 'horizontal', 'divider')
+    const divider = createWithClasses('div', 'ui', 'horizontal', 'divider', 'inverted')
     divider.innerText = 'Or'
     container.append(divider)
 
@@ -31,12 +31,13 @@ function searchMovieForm() {
 }
 
 function getRandomMovie() {
+	getSearchList().style.display = 'none'
 	fetch('http://localhost:3000/movies/random')
 	.then(resp => resp.json())
 	.then(movie => {
 		const movieDisplay = document.getElementById('movie-search-show')
 		movieDisplay.style.display = 'block'
-		renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date)
+		renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date, movie.trailer)
 	})
 }
 
@@ -81,14 +82,15 @@ function searchMovie(event) {
 }
 
 function renderSearches(movie) {
-
+	getSearchList().style.display = 'inline-grid'
 
 	const searchResultsList = getSearchList()
-
+	// searchResultsList.syle.backgroundColor = 'white'
 
 
 	const searchResult = createWithClasses('a', 'item')
 	searchResult.innerText = movie.title
+
 
 
 	searchResultsList.append(searchResult)
@@ -145,20 +147,25 @@ function renderMovie(title, rating, description, picture, date, trailer) {
 		dropdown.append(listOption)
 	})
 
+	const trailerDiv = document.createElement('div')
+
 	const movieTrailer = createWithClasses('iframe')
 
 	movieTrailer.src = `https://www.youtube.com/embed/${trailer}`
 
+
 	movieTrailer.width ="420" 
 	movieTrailer.height="315"
-	movieTrailer.align = 'middle'
+	trailerDiv.display ='flex'
+	trailerDiv.align = 'middle'
+	trailerDiv.append(movieTrailer)
 
 
 	const addButton = createWithClasses('button', 'ui', 'primary', 'button')
 	addButton.id = 'add-button'
 	addButton.innerText = 'Add to List'
 
-	movieDisplay.append(header, poster, movieRating, releaseDate, descriptionTitle, movieDescription, movieTrailer, dropdown, addButton)
+	movieDisplay.append(header, poster, movieRating, releaseDate, descriptionTitle, movieDescription, trailerDiv, dropdown, addButton)
 	
 	addButton.addEventListener('click', () => createMovie(event, title, rating, description, picture, date))
 

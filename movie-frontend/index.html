@@ -4,9 +4,19 @@
 	<title>ReelList</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<style type="text/css">
+main {
+  width:100%;
+  min-height:calc(100% - 100px);
+  background-image: url('http://cdn.animalhi.com/1920x1080/20180605/5b15d28be2110.jpg');;
+
+  background-size: cover;
+  background-attachment:fixed;
+}
+</style>
 </head>
 <body>
-
+<main>
 <div class="ui mini menu">
   <div class="item">
     <i class="film icon"></i>
@@ -33,11 +43,11 @@
 	<div class="ui text justified container" id='list-show'></div>
 	<div class="ui text center aligned basic segment" id='find-movie'></div>
   <div class="ui grid" id='movie-search-show'>
-    <div class="one wide column"></div>
-    <div class="five wide column ui link list" id='movie-search-list'></div>
+    <div class="four wide column"></div>
+    <div class="three wide column ui link list container segment inverted" id='movie-search-list'></div>
     <div class="one wide column"></div>
     <div class="seven wide column ui raised very padded text container segment inverted" id='movie-search-display' style="display: none;"></div>
-    <div class='two wide column'></div>
+    <div class='one wide column'></div>
   </div>
 
 
@@ -47,6 +57,6 @@
     <script type="text/javascript" src="src/lists.js"></script>
     <script type="text/javascript" src="src/movie.js"></script>
     <script type="text/javascript" src="src/listPage.js"></script>
-    
+  </main>
 </body>
 </html>
