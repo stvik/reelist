@@ -46,25 +46,32 @@ function removeHomePage() {
 }
 
 function homePage() {
+		const searchContainer = document.getElementById('find-movie')
+		searchContainer.style.display = 'none'
 
 		hideLists()
 		hideSearchedMovies()
 
 		const container = document.getElementById('list-show')
 		removeChildElements(container)
+		container.style.display = 'inline'
 
 		const header = createWithClasses('h1', "ui",  'center', 'aligned', 'icon', "header")
 		header.innerHTML = `<i class="circular film icon"></i>
   ReelList`
   		container.append(header)
 
-		const searchButton = createWithClasses('button', 'huge', 'ui', 'button', 'fluid', 'circular', 'violet')
-		searchButton.innerText = "Find a New Movie"
-		container.append(searchButton)
+  		const buttonDiv = createWithClasses('div', 'ui', 'container', 'text', 'align','center')
+  		container.append(buttonDiv)
 
-		const listsButton = createWithClasses('button', 'huge', 'ui', 'button', 'fluid', 'circular', 'black')
+
+		const searchButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'violet','fluid')
+		searchButton.innerText = "Find a New Movie"
+		buttonDiv.append(searchButton)
+
+		const listsButton = createWithClasses('button', 'huge', 'ui', 'button', 'circular', 'black', 'fluid')
 		listsButton.innerText = "View lists"
-		container.append(listsButton)
+		buttonDiv.append(listsButton)
 
 		searchButton.addEventListener('click', () => {
 			removeChildElements(container)

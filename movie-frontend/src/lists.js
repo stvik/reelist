@@ -96,7 +96,7 @@ function createNewList (event) {
 
 	event.currentTarget.reset()
 	toggleAddForm()
-	removeHomePage()
+	
 }
 
 function renderList(list) {
@@ -148,9 +148,12 @@ function renderList(list) {
 
 	trash.addEventListener('click', (e) => deleteList(e, list.id))
 	// img.addEventListener('click', (e) => fetchList(e, list.id))
-	contentDiv.addEventListener('click', (e) => fetchList(e, list.id))
+	contentDiv.addEventListener('click', (e) => {
+		container.style.display ='none'
+		fetchList(e, list.id)
+	})
 
-	
+
 
 }
 
