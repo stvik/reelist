@@ -101,11 +101,12 @@ function createNewList (event) {
 
 function renderList(list) {
 
+
 	const imageSrc = 'https://www.pngkey.com/png/detail/226-2264513_open-house-film-production-icon-png.png'
 
 	const container = document.getElementById('list-container')
 
-	container.style.display ='block'
+	container.style.display ='flex'
 
 	const card = document.createElement('div')
 	card.classList.add('ui', 'card')

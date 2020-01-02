@@ -75,6 +75,8 @@ function searchMovie(event) {
 		 		renderSearches(movie)
 		 	})
 		})
+
+		event.target.reset
 	
 }
 

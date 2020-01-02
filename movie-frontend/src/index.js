@@ -15,11 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	homeLink.addEventListener('click', homePage)
 
 	const container = document.getElementById('list-show')
+	const searchMovieCont = document.getElementById('find-movie')
 
 	const listLink = document.getElementById('lists-page')
 	listLink.addEventListener('click', () => {
 		removeChildElements(container)
+		hideSearchedMovies()
 		getLists()
+		searchMovieCont.style.display = 'none'
 	})
 })
 
