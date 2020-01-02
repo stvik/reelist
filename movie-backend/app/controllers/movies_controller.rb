@@ -57,17 +57,6 @@ class MoviesController < ApplicationController
 
 		movie_trailers = []
 
-		movies_array.each do |movie|
-
-			movie_id = movie['id']
-
-			movie_trailer = Tmdb::Movie.trailers(movie_id)
-
-			youtube = movie_trailer['youtube']
-
-	
-			byebug
-		end
 
 
 
@@ -83,7 +72,7 @@ class MoviesController < ApplicationController
 
 			trailer_source = nil
 
-			if movie_trailer['youtube']
+			if movie_trailer['youtube'].any?
 				trailer_source = movie_trailer['youtube'][0]['source']
 			end
 

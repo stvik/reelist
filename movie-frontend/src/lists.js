@@ -1,4 +1,6 @@
 function getLists() {
+	const container = document.getElementById('list-container')
+	removeChildElements(container)
 	fetch('http://localhost:3000/lists')
 	.then(resp => resp.json())
 	.then(lists => lists.forEach(renderList))
@@ -93,12 +95,17 @@ function createNewList (event) {
 
 
 	event.currentTarget.reset()
+	toggleAddForm()
+	removeHomePage()
 }
 
 function renderList(list) {
+
 	const imageSrc = 'https://www.pngkey.com/png/detail/226-2264513_open-house-film-production-icon-png.png'
 
 	const container = document.getElementById('list-container')
+
+	container.style.display ='block'
 
 	const card = document.createElement('div')
 	card.classList.add('ui', 'card')
@@ -142,6 +149,8 @@ function renderList(list) {
 	trash.addEventListener('click', (e) => deleteList(e, list.id))
 	// img.addEventListener('click', (e) => fetchList(e, list.id))
 	contentDiv.addEventListener('click', (e) => fetchList(e, list.id))
+
+	
 
 }
 

@@ -68,7 +68,7 @@ function searchMovie(event) {
 		 	const header = createWithClasses('h2', 'ui', 'header')
  			header.innerText = 'Search Results'
  			searchList.append(header)
- 		
+
 
 
 		 	movies.forEach(movie => {
@@ -91,7 +91,7 @@ function renderSearches(movie) {
 
 	searchResultsList.append(searchResult)
 
-	searchResult.addEventListener('click',() => {renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date)})
+	searchResult.addEventListener('click',() => {renderMovie(movie.title, movie.rating, movie.description, movie.picture, movie.release_date, movie.trailer)})
 }
 
 
@@ -100,7 +100,7 @@ function getSearchList() {
 	return document.getElementById('movie-search-list')
 }
 
-function renderMovie(title, rating, description, picture, date) {
+function renderMovie(title, rating, description, picture, date, trailer) {
 
 	const movieDisplay = document.getElementById('movie-search-display')
 	movieDisplay.style.display = 'inline-grid'
@@ -131,6 +131,8 @@ function renderMovie(title, rating, description, picture, date) {
 
 	
 
+	
+
 	// const menu = document.getElementById('dropdown-choose-list')
 
 	listCards.forEach(list => {
@@ -141,11 +143,20 @@ function renderMovie(title, rating, description, picture, date) {
 		dropdown.append(listOption)
 	})
 
+	const movieTrailer = createWithClasses('iframe')
+
+	movieTrailer.src = `https://www.youtube.com/embed/${trailer}`
+
+	movieTrailer.width ="420" 
+	movieTrailer.height="315"
+	movieTrailer.align = 'middle'
+
+
 	const addButton = createWithClasses('button', 'ui', 'primary', 'button')
 	addButton.id = 'add-button'
 	addButton.innerText = 'Add to List'
 
-	movieDisplay.append(header, poster, movieRating, releaseDate, descriptionTitle, movieDescription, dropdown, addButton)
+	movieDisplay.append(header, poster, movieRating, releaseDate, descriptionTitle, movieDescription, movieTrailer, dropdown, addButton)
 	
 	addButton.addEventListener('click', () => createMovie(event, title, rating, description, picture, date))
 

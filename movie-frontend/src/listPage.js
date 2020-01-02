@@ -1,5 +1,7 @@
 function fetchList(event, listId) {
 
+	console.log(listId)
+
 	const createForm = document.getElementById('form-container')
 	const displayContainer = document.getElementById('list-show')
 	const searchForm = document.getElementById('find-movie')
@@ -18,6 +20,7 @@ function fetchList(event, listId) {
 }
 
 function renderShowList(list) {
+
 	const listsContainer = document.getElementById('list-container')
 	// listsContainer.style.display = 'none'
 	const container = document.getElementById('list-show')
@@ -27,6 +30,8 @@ function renderShowList(list) {
 	}else {
 		updateList(list, container)
 	}
+
+
 
 }
 
@@ -91,6 +96,8 @@ function renderMovieItem(movie, container, listId, adds) {
 
   container.append(movieItem)
 
+  removeHomePage()
+
 
 }
 
@@ -122,6 +129,8 @@ function deleteAdd(e, movieId, listId) {
 }
 
 function createListDisplay(list, container) {
+
+		console.log(list)
 		const header = createWithClasses('div', 'ui', 'huge', 'header', 'centered')
 		header.id = 'list-header'
 		header.innerText = list.name
@@ -149,15 +158,7 @@ function createListDisplay(list, container) {
 			renderMovieItem(movie, movieItems, list.id, adds)
 		})
 
-
-// ****************** FIX THIS LATER *******************
-		// const deleteButton = createWithClasses('button', 'massive', 'ui', 'button', 'fluid', 'circular', 'red')
-		// deleteButton.innerText = "Delete List"
-		// container.append(deleteButton)
-
-		// deleteButton.addEventListener('click', (e) => deleteList(e, list.id))
-
-
+		
 	}
 
 // 		const creatorSubH = createWithClasses('div', 'ui', 'small', 'header', 'centered', 'grey')

@@ -2,12 +2,25 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 	hideSearchedMovies()
-	getLists()
+	hideLists()
+	homePage()
+	// getLists()
 	document.getElementById('form-container').style.display = 'none'
 	createAddForm()
 	const createButton = document.getElementById("create-new-list")
 
 	createButton.addEventListener('click', toggleAddForm)
+
+	const homeLink = document.getElementById('home-page')
+	homeLink.addEventListener('click', homePage)
+
+	const container = document.getElementById('list-show')
+
+	const listLink = document.getElementById('lists-page')
+	listLink.addEventListener('click', () => {
+		removeChildElements(container)
+		getLists()
+	})
 })
 
 function toggleAddForm() {
@@ -24,6 +37,44 @@ function toggleAddForm() {
 		createForm.style.display = 'none'
 		displayList.style.display = 'block'
 	}
+}
+
+function removeHomePage() {
+
+		// const container = document.getElementById('list-show')
+		// removeChildElements(container)
+}
+
+function homePage() {
+
+		hideLists()
+		hideSearchedMovies()
+
+		const container = document.getElementById('list-show')
+		removeChildElements(container)
+
+		const header = createWithClasses('h1', "ui",  'center', 'aligned', 'icon', "header")
+		header.innerHTML = `<i class="circular film icon"></i>
+  ReelList`
+  		container.append(header)
+
+		const searchButton = createWithClasses('button', 'huge', 'ui', 'button', 'fluid', 'circular', 'violet')
+		searchButton.innerText = "Find a New Movie"
+		container.append(searchButton)
+
+		const listsButton = createWithClasses('button', 'huge', 'ui', 'button', 'fluid', 'circular', 'black')
+		listsButton.innerText = "View lists"
+		container.append(listsButton)
+
+		searchButton.addEventListener('click', () => {
+			removeChildElements(container)
+			searchMovieForm()
+		})
+
+		listsButton.addEventListener('click', () => {
+			removeChildElements(container)
+			getLists()
+		})
 }
 
 
