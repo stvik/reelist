@@ -44,25 +44,9 @@ function getRandomMovie() {
 function searchMovie(event) {
 	const search = document.getElementById('title-search-input').value
 
-
-
-		const data = {
-			'search': search,
-		}	
-
-		const configOp = {
-			method: "POST",
-			headers: {
-				"content-type": 'application/json',
-				"Accept": "application/json"
-			},
-			body: JSON.stringify(data)
-		}
-
-		fetch('http://localhost:3000/movies/search', configOp)
+		fetch(`http://localhost:3000/movies?search=${search}`)
 		.then(resp => resp.json())
 		.then(movies =>  {
-
 		 	const searchList = getSearchList()
 		 	removeChildElements(searchList)
 			document.getElementById('movie-search-show').style.display = 'block'
@@ -70,15 +54,12 @@ function searchMovie(event) {
  			header.innerText = 'Search Results'
  			searchList.append(header)
 
-
-
 		 	movies.forEach(movie => {
 		 		renderSearches(movie)
 		 	})
 		})
 
-		event.target.reset
-	
+		event.target.reset	
 }
 
 function renderSearches(movie) {

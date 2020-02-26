@@ -2,9 +2,10 @@ class Movie < ApplicationRecord
 	has_many :adds
 	has_many :lists, through: :adds
 
-	def self.search_movie(title) 
-		Tmdb::Api.key(ENV["TMDB_API_KEY"])
+	api_key = Tmdb::Api.key(ENV["TMDB_API_KEY"])
 
+	def self.search_movie(title) 
+	
 		@search = Tmdb::Search.new
 
 		@search.resource('movie')
@@ -13,31 +14,49 @@ class Movie < ApplicationRecord
 
 		movies_array = @search.fetch
 
-		created_movies = []
+		return movies_array.map do |movie|
+			create_movie(movie)
+		end
+	end
 
-		#Creates new instances of 'movie'
-		movies_array.each do |movie|
-			if movie["poster_path"]
-				poster_path = "https://image.tmdb.org/t/p/w300" + movie['poster_path']
-			end
 
-			movie_id = movie['id']
-			
-			movie_trailer = Tmdb::Movie.trailers(movie_id)
+	def self.get_random_movie
 
-			trailer_source = nil
+		movies = Tmdb::Movie.popular + Tmdb::Movie.top_rated
 
-			if movie_trailer['youtube'].any?
-				trailer_source = movie_trailer['youtube'][0]['source']
-			end
+		random_movie = movies.sample
 
-			new_movie = self.new(title: movie['title'], rating: movie['vote_average'], description: movie['overview'], 
-				picture: poster_path, release_date: movie["release_date"], trailer: trailer_source)
+		return create_movie(movie)
 
-			created_movies << new_movie	
+	end
 
+	def self.create_movie(movie)
+
+		trailer_source = get_trailer(movie)
+
+		poster_path = get_poster_path(movie)
+
+		movie = self.new(title: movie['title'], rating: movie['vote_average'], description: movie['overview'], 
+			picture: poster_path, release_date: movie['release_date'], trailer: trailer_source)
+
+	end
+
+	def self.get_trailer(movie)
+		movie_trailer = Tmdb::Movie.trailers(movie['id'])
+
+		if movie_trailer['youtube'].any?
+			return trailer_source = movie_trailer['youtube'][0]['source']
+		else
+			return nil
+		end
+	end
+
+	def self.get_poster_path(movie)
+		if movie['poster_path']
+			poster_path = "https://image.tmdb.org/t/p/w300" + movie['poster_path']
+		else 
+			poster_path = 'https://s.studiobinder.com/wp-content/uploads/2017/12/Movie-Poster-Template-Dark-with-Image.jpg?x81279'
 		end
 
-		return created_movies
 	end
 end
