@@ -1,7 +1,11 @@
 class MoviesController < ApplicationController
 
 	def index
-		movies = Movie.all
+		if params[:search]
+			movies = Movie.search_movie(params[:search])
+		else 
+			movies = Movie.all
+		end
 
 		render json: MovieSerializer.new(movies).to_serialized_json
 	end
@@ -12,7 +16,7 @@ class MoviesController < ApplicationController
 	end
 
 	def random
-		Tmdb::Api.key("448aada9893a31e347236034886c1ced")
+		Tmdb::Api.key(ENV["TMDB_API_KEY"])
 
 		popular_movies = Tmdb::Movie.popular
 
@@ -48,58 +52,9 @@ class MoviesController < ApplicationController
 	end
 
 	def search
-		# consider putting in model..
-		Tmdb::Api.key("448aada9893a31e347236034886c1ced")
-
-		title = params[:search]
-
-		@search = Tmdb::Search.new
-
-		@search.resource('movie')
-
-		@search.query(title)
- 		# fetches first five movies
-
-		movies_array = @search.fetch
-
-		#empty array for the movies saved to database
-		created_movies = []
-
-		movie_trailers = []
-
-
-
-
-		#saves each movie to database
-		movies_array.each do |movie|
-			if movie["poster_path"]
-				poster_path = "https://image.tmdb.org/t/p/w300" + movie['poster_path']
-			end
-
-			movie_id = movie['id']
-			
-			movie_trailer = Tmdb::Movie.trailers(movie_id)
-
-			trailer_source = nil
-
-			if movie_trailer['youtube'].any?
-				trailer_source = movie_trailer['youtube'][0]['source']
-			end
-
-			new_movie = Movie.new(title: movie['title'], rating: movie['vote_average'], description: movie['overview'], 
-				picture: poster_path, release_date: movie["release_date"], trailer: trailer_source)
-
-			created_movies << new_movie	
-
-		end
-
-
-
-
-		
-
+		movies = Movie.search_movie(params[:search])
 		# renders movies
-		render json: MovieSerializer.new(created_movies).to_serialized_json
+		render json: MovieSerializer.new(movies).to_serialized_json
 
 	end
 
