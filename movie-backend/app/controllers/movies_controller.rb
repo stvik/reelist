@@ -4,7 +4,7 @@ class MoviesController < ApplicationController
 		if params[:search]
 			movies = Movie.search_movie(params[:search])
 		elsif params[:random]
-			movies
+			movies = Movie.get_random_movie
 		else 
 			movies = Movie.all
 		end

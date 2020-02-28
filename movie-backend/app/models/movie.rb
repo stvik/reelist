@@ -26,13 +26,23 @@ class Movie < ApplicationRecord
 
 		random_movie = movies.sample
 
-		return create_movie(movie)
+		return create_random_movie(random_movie)
+
+	end
+
+	def self.create_random_movie(movie)
+		poster_path = "https://image.tmdb.org/t/p/w300" + movie.poster_path
+		trailer_source = get_trailer(Tmdb::Movie.trailers(movie.id))
+
+
+		movie = self.new(title: movie.title, rating: movie.vote_average, description: movie.overview, 
+			picture: poster_path, release_date: movie.release_date, trailer: trailer_source)		
 
 	end
 
 	def self.create_movie(movie)
 
-		trailer_source = get_trailer(movie)
+		trailer_source = get_trailer(Tmdb::Movie.trailers(movie['id']))
 
 		poster_path = get_poster_path(movie)
 
@@ -41,9 +51,8 @@ class Movie < ApplicationRecord
 
 	end
 
-	def self.get_trailer(movie)
-		movie_trailer = Tmdb::Movie.trailers(movie['id'])
-
+	def self.get_trailer(movie_trailer)
+	
 		if movie_trailer['youtube'].any?
 			return trailer_source = movie_trailer['youtube'][0]['source']
 		else
